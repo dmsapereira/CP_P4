@@ -11,8 +11,9 @@ echo Rows: $R
 echo Cols: $C
 for i in $(seq 1 $R); do
     for j in $(seq 1 $C); do
-        read n
-        if [[ $n < $P ]]; then
+        read -n 1 n
+        v=$(echo -n "$n" | od -An -t uC)
+        if [[ $v -le $P ]]; then
             echo -n "#"
         else
             echo -n "."
