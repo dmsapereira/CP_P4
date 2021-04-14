@@ -20,6 +20,10 @@ LDFLAGS += -L$(LLVMDIR)/lib
 endif
 endif
 
+P=60
+R=100
+C=70
+
 
 EXE=glife
 SRC=config.c game.c main.c mem.c
@@ -29,8 +33,13 @@ $(EXE): $(OBJ)
 	$(CC) -o $@ $^ $(LDFLAGS) $(LIBS)
 
 # This is the default rule, so it is commented
-# %.o: %.c
-# 	$(CC) $(CFLAGS) $<
+%.o: %.c
+	$(CC) $(CFLAGS) $<
 
+.PHONY: board
+board:
+	genboard $(P) $(R) $(C)
+
+.PHONY: clean
 clean:
 	rm -f $(EXE) $(OBJ)
