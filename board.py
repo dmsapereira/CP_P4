@@ -2,8 +2,8 @@ import sys
 import random
 
 
-print ('Number of arguments:', len(sys.argv), 'arguments.')
-print ('Argument List:', str(sys.argv))
+# print ('Number of arguments:', len(sys.argv), 'arguments.')
+# print ('Argument List:', str(sys.argv))
 
 if len(sys.argv) != 4:
     print ("Usage: board.py Prob nRows nCols")
@@ -15,8 +15,8 @@ nCols = int(sys.argv[3])
 print ("Rows: {0}".format(nRows))
 print ("Cols: {0}".format(nCols))
 
-for i  in range(1, nRows):
-    for j  in range(1, nCols):
+for i  in range(0, nRows):
+    for j  in range(0, nCols):
         v = random.randint(0,100)
         if v <= prob:
             print ("#", end='')
