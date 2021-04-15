@@ -23,15 +23,7 @@
 #include "mem.h"
 
 /* Error messages */
-static const char *const usage_message =
-    "\n"
-    "Conway's Game of Life\n"
-    "Raphael Kubo da Costa, RA 072201\n"
-    "\n"
-    "Usage: glife GENERATIONS INPUT_FILE\n"
-    "\n"
-    "  GENERATIONS is the number of generations the game should run\n"
-    "  INPUT_FILE  is a file containing an initial board state\n" "\n";
+static const char *const usage_message ="\nConway's Game of Life\nRaphael Kubo da Costa, RA 072201\n\nUsage: glife GENERATIONS INPUT_FILE\n\n  GENERATIONS is the number of generations the game should run\n  INPUT_FILE  is a file containing an initial board state\n\n";
 
 void game_config_free(GameConfig *config)
 {
@@ -56,7 +48,7 @@ GameConfig *game_config_new_from_cli(int argc, char *argv[])
   long generations;
 
   if (argc != CLI_ARGC) {
-    fprintf(stderr, usage_message);
+    fprintf(stderr, "%s", usage_message);
     return NULL;
   }
 
