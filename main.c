@@ -40,7 +40,8 @@ int main(int argc, char *argv[])
     exit(1);
   }
 
-  printf("Seed board:\n");
+  generation = 0;
+  printf("\nGeneration %zu:\n", generation);
   game_print_board(game);
 
   for (generation = 1; generation <= game_config_get_generations(config); generation++) {
