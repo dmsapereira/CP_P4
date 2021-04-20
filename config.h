@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define CLI_ARGC 3
+#define CLI_ARGC 2
 
 /**
  * Structure to hold the game options.
