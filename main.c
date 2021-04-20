@@ -40,7 +40,10 @@ int main(int argc, char *argv[])
     exit(1);
   }
 
+  printf("\x1b[1J");
+  printf("\x1b[1;1f");
   printf("Seed board:\n");
+  generation = 0;
   game_print_board(game);
 
   for (generation = 1; generation <= game_config_get_generations(config); generation++) {
@@ -50,6 +53,8 @@ int main(int argc, char *argv[])
       game_free(game);
     }
 
+    printf("\x1b[1J");
+    printf("\x1b[1;1f");
     printf("\nGeneration %zu:\n", generation);
     game_print_board(game);
   }

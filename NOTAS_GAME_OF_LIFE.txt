@@ -1,0 +1,22 @@
+GAME OF LIFE:
+
+Infinite, two-dimensional orthogonal grid of square cells
+
+2 Possible states for each cell live/populated or dead/unpopulated
+
+Every cell interacts with its 8 neighbours (cells that are vertically, horizontally
+or diagonally adjacent)
+
+Transitions:
+1 - Live Cell with less than 2 live neighbours dies (underpopulation);
+2 - Live Cell with 2 or 3 live neighbours lives in the next generation;
+3 - Live Cell with more than 3 live neighbours dies (overpopulation);
+4 - Dead Cell with exactly 3 neighbours becomes a Live Cell (reproduction);
+
+The initial pattern (board) consists the seed of the system;
+
+The first generation is created by applying the rules for the transitions;
+
+The moment each generation is created is called a "tick";
+
+Each generation is a pure function of the preceeding one.

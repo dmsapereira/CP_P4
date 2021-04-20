@@ -49,8 +49,10 @@ static char *__re_get_first_match(const char *pattern, const char *subject)
     return NULL;
 
   rc = pcre_exec(re, NULL, subject, strlen(subject), 0, 0, ovector, 30);
-  if (rc <= 0)
+  if (rc <= 0){
     return NULL;
+  }
+    
 
   match = MEM_ALLOC_N(char, ovector[3] - ovector[2] + 1);
   strncpy(match, subject + ovector[2], ovector[3] - ovector[2]);
