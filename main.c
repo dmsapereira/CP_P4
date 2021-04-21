@@ -26,16 +26,19 @@ int main(int argc, char *argv[])
   GameConfig *config;
   Game *game;
   size_t generation;
-  int opt, waitTime = 0, quiet = 0;
+  int opt, waitTime = 0, quiet = 0, omp = 0;
 
     // get flags
-  while ((opt = getopt(argc, argv, "qp:")) != -1) {
+  while ((opt = getopt(argc, argv, "tqp:")) != -1) {
     switch(opt) {
       case 'p':
         waitTime = atoi(optarg);
         break;
       case 'q':
         quiet = 1;
+        break;
+      case 't':
+        omp = 1;
         break;
       default:
         break;
@@ -70,13 +73,13 @@ int main(int argc, char *argv[])
   }
 
   for (generation = 1; generation <= game_config_get_generations(config); generation++) {
-    if (game_tick(game)) {
+    if (game_tick(game, omp)) {
       fprintf(stderr, "Error while advancing to the next generation.\n");
       game_config_free(config);
       game_free(game);
     }
 
-    if (quiet && generation == game_config_get_generations(config)) {
+    if (!quiet || (quiet && generation == game_config_get_generations(config))) {
       printf("%c[1J", 0x1b);
       printf("%c[%d;%dH", 0x1b, 0, 0);
 

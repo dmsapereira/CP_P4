@@ -153,7 +153,47 @@ void process_slice(GameInfo *tinfo)
   size_t row, col;
 
   for (col = 0; col < tinfo->game->cols; col++) {
-    #pragma omp parallel for
+    for (row = 0; row < tinfo->game->rows; row++) {
+      live_count = 0;
+
+      /* Count the living neighbour cells */
+      if (game_is_alive(tinfo->game, row, col+1))   live_count++;
+      if (game_is_alive(tinfo->game, row+1, col))   live_count++;
+      if (game_is_alive(tinfo->game, row+1, col+1)) live_count++;
+      if (row > 0) {
+        if (game_is_alive(tinfo->game, row-1, col))   live_count++;
+        if (game_is_alive(tinfo->game, row-1, col+1)) live_count++;
+      }
+      if (col > 0) {
+        if (game_is_alive(tinfo->game, row, col-1))   live_count++;
+        if (game_is_alive(tinfo->game, row+1, col-1)) live_count++;
+      }
+      if ((row > 0) && (col > 0))
+        if (game_is_alive(tinfo->game, row-1, col-1)) live_count++;
+
+      /* Apply the game's rules to the current cell */
+      if ((live_count < 2) || (live_count > 3))
+        tinfo->new_board[row * tinfo->game->cols + col] = 0;
+      else if (live_count == 3)
+        tinfo->new_board[row * tinfo->game->cols + col] = 1;
+      else
+        tinfo->new_board[row * tinfo->game->cols + col] = tinfo->game->board[row * tinfo->game->cols + col];
+    }
+  }
+}
+
+/**
+ * Analyzes a particular part of the game board and update its state to the next generation using OpenMP.
+ *
+ * @param t Pointer to a GameInfo structure.
+ */
+void process_slice_omp(GameInfo *tinfo)
+{
+  char live_count;
+  size_t row, col;
+
+  for (col = 0; col < tinfo->game->cols; col++) {
+    #pragma omp parallel for private(live_count)
     for (row = 0; row < tinfo->game->rows; row++) {
       live_count = 0;
 
@@ -276,7 +316,7 @@ void game_set_dead(Game *game, size_t row, size_t col)
   game->board[row * game->cols + col] = 0;
 }
 
-int game_tick(Game *game)
+int game_tick(Game *game, int ompFlag)
 {
   char *new_board;
   int retval = 0;
@@ -289,7 +329,7 @@ int game_tick(Game *game)
   tinfo->game = game;
   tinfo->new_board = new_board;
 
-  process_slice (&tinfo[tnum]);
+  ompFlag ? process_slice_omp(&tinfo[tnum]) : process_slice(&tinfo[tnum]);
 
   /* Make game use the new board and drop the old one */
   free(game->board);

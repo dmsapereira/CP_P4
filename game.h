@@ -122,10 +122,11 @@ void game_set_dead(Game *game, size_t row, size_t col);
  * Advances the cell board to a new generation (causes a 'tick').
  *
  * @param game Pointer to a Game structure.
+ * @param ompFlag if we are using OpenMP
  *
  * @retval 0 The tick has happened successfully.
  * @retval 1 The tick could not happen correctly.
  */
-int game_tick(Game *game);
+int game_tick(Game *game, int ompFlag);
 
 #endif
