@@ -52,15 +52,15 @@ GameConfig *game_config_new_from_cli(int argc, char *argv[])
     return NULL;
   }
 
-  generations = strtol(argv[1], &endptr, 10);
+  generations = strtol(argv[0], &endptr, 10);
   if ((*endptr != '\0') || (generations < 0)) {
     fprintf(stderr, "Error: GENERATIONS must be a valid positive integer\n");
     return NULL;
   }
 
-  file = fopen(argv[2], "r");
+  file = fopen(argv[1], "r");
   if (!file) {
-    fprintf(stderr, "Error: could not open '%s'\n", argv[2]);
+    fprintf(stderr, "Error: could not open '%s'\n", argv[1]);
     return NULL;
   }
 

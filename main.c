@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "config.h"
 #include "game.h"
 
@@ -25,6 +26,21 @@ int main(int argc, char *argv[])
   GameConfig *config;
   Game *game;
   size_t generation;
+  int opt, waitTime;
+
+    // get flags
+  while ((opt = getopt(argc, argv, "p:")) != -1) {
+    switch(opt) {
+      case 'p':
+        waitTime = atoi(optarg);
+        break;
+      default:
+        break;
+    }
+  }
+
+  argc -= optind;
+  argv += optind;
 
   config = game_config_new_from_cli(argc, argv);
   if (!config)
@@ -40,6 +56,9 @@ int main(int argc, char *argv[])
     exit(1);
   }
 
+  printf("%c[1J", 0x1b);
+  printf("%c[%d;%dH", 0x1b, 0, 0);
+
   generation = 0;
   printf("\nGeneration %zu:\n", generation);
   game_print_board(game);
@@ -51,6 +70,10 @@ int main(int argc, char *argv[])
       game_free(game);
     }
 
+    printf("%c[1J", 0x1b);
+    printf("%c[%d;%dH", 0x1b, 0, 0);
+
+    sleep(waitTime);
     printf("\nGeneration %zu:\n", generation);
     game_print_board(game);
   }
