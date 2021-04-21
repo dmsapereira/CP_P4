@@ -26,13 +26,16 @@ int main(int argc, char *argv[])
   GameConfig *config;
   Game *game;
   size_t generation;
-  int opt, waitTime;
+  int opt, waitTime = 0, quiet = 0;
 
     // get flags
-  while ((opt = getopt(argc, argv, "p:")) != -1) {
+  while ((opt = getopt(argc, argv, "qp:")) != -1) {
     switch(opt) {
       case 'p':
         waitTime = atoi(optarg);
+        break;
+      case 'q':
+        quiet = 1;
         break;
       default:
         break;
@@ -60,8 +63,11 @@ int main(int argc, char *argv[])
   printf("%c[%d;%dH", 0x1b, 0, 0);
 
   generation = 0;
-  printf("\nGeneration %zu:\n", generation);
-  game_print_board(game);
+
+  if(!quiet) {
+    printf("\nGeneration %zu:\n", generation);
+    game_print_board(game);
+  }
 
   for (generation = 1; generation <= game_config_get_generations(config); generation++) {
     if (game_tick(game)) {
@@ -70,12 +76,14 @@ int main(int argc, char *argv[])
       game_free(game);
     }
 
-    printf("%c[1J", 0x1b);
-    printf("%c[%d;%dH", 0x1b, 0, 0);
+    if (quiet && generation == game_config_get_generations(config)) {
+      printf("%c[1J", 0x1b);
+      printf("%c[%d;%dH", 0x1b, 0, 0);
 
-    sleep(waitTime);
-    printf("\nGeneration %zu:\n", generation);
-    game_print_board(game);
+      sleep(waitTime);
+      printf("\nGeneration %zu:\n", generation);
+      game_print_board(game);
+    }
   }
 
   game_config_free(config);
