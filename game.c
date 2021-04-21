@@ -21,6 +21,7 @@
 #include "config.h"
 #include "game.h"
 #include "mem.h"
+#include "omp.h"
 
 /**
  * Returns the string matched by the first subgroup pattern in a regular expression.
@@ -152,6 +153,7 @@ void process_slice(GameInfo *tinfo)
   size_t row, col;
 
   for (col = 0; col < tinfo->game->cols; col++) {
+    #pragma omp parallel for
     for (row = 0; row < tinfo->game->rows; row++) {
       live_count = 0;
 

@@ -1,8 +1,8 @@
 CC=gcc
 SYS := $(shell uname -s)
-CFLAGS := -c -Wall -g -ansi -pedantic -std=gnu11 -Werror -I/usr/local/include
+CFLAGS := -c -Wall -g -ansi -pedantic -std=gnu11 -Werror -fopenmp -I/usr/local/include
 LDFLAGS := -L/usr/local/lib
-LIBS := -lpcre
+LIBS := -lpcre -fopenmp
 
 ifeq ($(SYS),Linux)
 # Add stuff here stuff specific for Linux
