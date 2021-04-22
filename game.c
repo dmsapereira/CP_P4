@@ -192,8 +192,8 @@ void process_slice_omp(GameInfo *tinfo)
   char live_count;
   size_t row, col;
 
+  #pragma omp parallel for private(live_count) private(row)
   for (col = 0; col < tinfo->game->cols; col++) {
-    #pragma omp parallel for private(live_count)
     for (row = 0; row < tinfo->game->rows; row++) {
       live_count = 0;
 

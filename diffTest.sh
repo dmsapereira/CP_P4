@@ -16,7 +16,7 @@ for R in $(seq 1 $N_RUNS); do
 
   if [ -n "$(diff -q $THREADLESS_OUT $THREADED_OUT)" ]; then
     echo "Files aren't identical"
-    diffCounter++
+    ((diffCounter++))
   fi
 done
 
