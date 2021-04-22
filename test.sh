@@ -1,4 +1,4 @@
-GENERATIONS="10"
+GENERATIONS="100"
 N_RUNS="5"
 THREADLESS_OUT="threadless.txt"
 THREADED_OUT="threaded.txt"
